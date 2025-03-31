@@ -49,7 +49,6 @@ export class DivisionService {
           division.id,
         );
 
-        // Get parent division if exists
         let parentDivision: Division | null = null;
         if (division.parentDivisionId) {
           parentDivision = await this.divisionRepository.findById(
@@ -72,7 +71,6 @@ export class DivisionService {
       division.id,
     );
 
-    // Get parent division if exists
     let parentDivision: Division | null = null;
     if (division.parentDivisionId) {
       parentDivision = await this.divisionRepository.findById(
@@ -110,7 +108,6 @@ export class DivisionService {
       throw new Error('Division not found');
     }
 
-    // Check if the new name is unique (if name is being updated)
     if (updateDivisionDto.name && updateDivisionDto.name !== division.name) {
       const existingDivision = await this.divisionRepository.findByName(
         updateDivisionDto.name,
@@ -120,7 +117,6 @@ export class DivisionService {
       }
     }
 
-    // Check if parent division exists (if parent is being updated)
     let parentDivision: Division | null = null;
     if (updateDivisionDto.parentDivisionId) {
       parentDivision = await this.divisionRepository.findById(
@@ -130,7 +126,6 @@ export class DivisionService {
         throw new Error('Parent division not found');
       }
 
-      // Prevent circular references
       if (updateDivisionDto.parentDivisionId === id) {
         throw new Error('A division cannot be its own parent');
       }
@@ -139,8 +134,8 @@ export class DivisionService {
     division.update(
       updateDivisionDto.name,
       updateDivisionDto.parentDivisionId,
-      undefined, // Don't update level
-      undefined, // Don't update collaborators count
+      undefined,
+      undefined,
       updateDivisionDto.ambassadorName,
     );
 
@@ -158,7 +153,6 @@ export class DivisionService {
       throw new Error('Division not found');
     }
 
-    // Check if division has subdivisions
     const subdivisions = await this.divisionRepository.findSubdivisions(id);
     if (subdivisions.length > 0) {
       throw new Error('Cannot delete a division that has subdivisions');

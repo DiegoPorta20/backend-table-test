@@ -17,7 +17,6 @@ export class DivisionMapper {
       subdivisionsCount: subdivisionsCount,
     };
 
-    // Agregar información del padre si existe
     if (parentDivision) {
       dto.parentDivision = {
         id: parentDivision.id,
